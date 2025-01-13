@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AuthorRecognition.iml" filepath="$PROJECT_DIR$/.idea/AuthorRecognition.iml" />
       <module fileurl="file://$PROJECT_DIR$/Recognition/Recognition.iml" filepath="$PROJECT_DIR$/Recognition/Recognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Recognition.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Recognition.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Recognition.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Recognition.test.iml" />
     </modules>
   </component>
 </project>
