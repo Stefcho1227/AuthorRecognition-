@@ -8,7 +8,6 @@ import java.util.*;
 
 public class Trainer {
     public static void main(String[] args) {
-        // Start implementing your training logic here.
-        System.out.println("Hello, Trainer!");
+
     }
 }
