@@ -29,33 +29,65 @@ public class RecognitionService {
             throw new IllegalStateException("Model is not loaded. Call loadModel() first.");
         }
 
-        Map<String, Double> authorScores = new HashMap<>();
         List<String> tokens = FileUtil.tokenizeText(text);
 
+        Map<String, Double> logScores = new HashMap<>();
         for (String author : modelData.getWordCountsPerAuthor().keySet()) {
-            double score = calculateScoreForAuthor(author, tokens);
-            authorScores.put(author, score);
+            double score = calculateLogLikelihood(author, tokens);
+            logScores.put(author, score);
         }
 
-        return authorScores.entrySet()
-                .stream()
+        double sumOfExponentials = 0.0;
+        Map<String, Double> expScores = new HashMap<>();
+
+        for (Map.Entry<String, Double> entry : logScores.entrySet()) {
+            double expVal = Math.exp(entry.getValue());
+            expScores.put(entry.getKey(), expVal);
+            sumOfExponentials += expVal;
+        }
+
+        Map<String, Double> authorProbabilities = new HashMap<>();
+        for (Map.Entry<String, Double> entry : expScores.entrySet()) {
+            double probability = entry.getValue() / sumOfExponentials;
+            authorProbabilities.put(entry.getKey(), probability);
+        }
+
+        String predictedAuthor = authorProbabilities.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse("Unknown Author");
+
+        System.out.println("Probabilities:");
+        authorProbabilities.entrySet().stream()
+                .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
+                .forEach(e -> {
+                    String output = "";
+                    if(e.getKey().equals("vazov")){
+                        output = "Иван Вазов";
+                    } else if(e.getKey().equals("yovkov")){
+                        output = "Йордан Йовков";
+                    } else if(e.getKey().equals("konstantinov")){
+                        output = "Алеко Константинов";
+                    }
+                    System.out.printf("   %s -> %.4f\n", output, e.getValue());
+                });
+
+        return predictedAuthor;
     }
 
-    private double calculateScoreForAuthor(String author, List<String> tokens) {
+
+    private double calculateLogLikelihood(String author, List<String> tokens) {
         Map<String, Integer> wordCounts = modelData.getWordCountsPerAuthor().get(author);
         int totalWords = modelData.getTotalWordsPerAuthor().getOrDefault(author, 0);
         double vocabularySize = modelData.getVocabulary().size();
 
-        double score = 0.0;
-
+        double logLikelihood = 0.0;
         for (String token : tokens) {
-            double wordProbability = (wordCounts.getOrDefault(token, 0) + 1) / (double) (totalWords + vocabularySize);
-            score += Math.log(wordProbability);
-        }
+            double wordProbability =
+                    (wordCounts.getOrDefault(token, 0) + 1) / (double) (totalWords + vocabularySize);
 
-        return score;
+            logLikelihood += Math.log(wordProbability);
+        }
+        return logLikelihood;
     }
 }
