@@ -12,7 +12,6 @@ import java.util.*;
 @Service
 public class TrainerService {
 
-    // Data structures for training
     private Map<String, Map<String, Integer>> wordCountsPerAuthor = new HashMap<>();
     private Map<String, Integer> totalWordsPerAuthor = new HashMap<>();
     private Map<String, Integer> docCountPerAuthor = new HashMap<>();

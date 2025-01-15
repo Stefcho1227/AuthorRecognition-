@@ -10,7 +10,7 @@ public class FileUtil {
         File directory = new File(directoryPath);
         if (!directory.exists() || !directory.isDirectory()) {
             System.err.println("Invalid directory: " + directoryPath);
-            return new File[0]; // Return an empty array
+            return new File[0];
         }
         return directory.listFiles((dir, name) -> name.endsWith(".txt"));
     }
@@ -49,13 +49,11 @@ public class FileUtil {
     public static void writeToFile(String filePath, String content) {
         File file = new File(filePath);
         try {
-            // Ensure parent directories exist
             File parentDir = file.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 parentDir.mkdirs();
             }
 
-            // Warn if file already exists
             if (file.exists()) {
                 System.out.println("Warning: Overwriting existing file: " + filePath);
             }

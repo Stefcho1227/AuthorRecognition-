@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ModelData {
     public ModelData() {
-        // Default constructor for Jackson
+
     }
 
     @JsonProperty("wordCountsPerAuthor")
@@ -38,7 +38,6 @@ public class ModelData {
         this.vocabulary = vocabulary;
     }
 
-    // Getters and setters
     public Map<String, Map<String, Integer>> getWordCountsPerAuthor() {
         return wordCountsPerAuthor;
     }
