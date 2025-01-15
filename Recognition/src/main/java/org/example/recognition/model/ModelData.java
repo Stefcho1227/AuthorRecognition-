@@ -38,7 +38,7 @@ public class ModelData {
         this.vocabulary = vocabulary;
     }
 
-    // Getters and setters (optional but recommended)
+    // Getters and setters
     public Map<String, Map<String, Integer>> getWordCountsPerAuthor() {
         return wordCountsPerAuthor;
     }

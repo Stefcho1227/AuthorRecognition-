@@ -1,5 +1,6 @@
 package org.example.recognition;
 
+import org.example.recognition.service.RecognitionService;
 import org.example.recognition.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,8 @@ public class RecognitionApplication implements CommandLineRunner {
 
     @Autowired
     private TrainerService trainerService;
+    @Autowired
+    private RecognitionService recognitionService;
 
     public static void main(String[] args) {
         SpringApplication.run(RecognitionApplication.class, args);
@@ -20,10 +23,18 @@ public class RecognitionApplication implements CommandLineRunner {
     public void run(String... args) {
         String baseDir = "Recognition/src/main/resources/data";
         String[] authors = {"vazov", "yovkov", "konstantinov"};
+//      Този код се изпълнява само веднъж при първото построяване на програмата и
+//      след всяко обновяване на ресурсните текстове. Той обучава програмата.
 
-        trainerService.trainModel(baseDir, authors);
-        trainerService.saveModelToJson("authorship_model.json");
+//        trainerService.trainModel(baseDir, authors);
+//        trainerService.saveModelToJson("authorship_model.json");
+//
+//        System.out.println("Training complete. Model saved to authorship_model.json");
+        recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
+        String testText = "синила от бича, следи от теглото"; //
+        String predictedAuthor = recognitionService.predictAuthor(testText);
 
-        System.out.println("Training complete. Model saved to authorship_model.json");
+        System.out.println("Predicted Author: " + predictedAuthor);
+
     }
 }

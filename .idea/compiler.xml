@@ -6,6 +6,8 @@
       <module name="demo.main" target="17" />
       <module name="demo.test" target="17" />
       <module name="Recognition" target="17" />
+      <module name="Recognition.main" target="17" />
+      <module name="Recognition.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
