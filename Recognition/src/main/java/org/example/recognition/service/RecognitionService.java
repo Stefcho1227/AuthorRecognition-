@@ -39,24 +39,20 @@ public class RecognitionService {
 
         double sumOfExponentials = 0.0;
         Map<String, Double> expScores = new HashMap<>();
-
         for (Map.Entry<String, Double> entry : logScores.entrySet()) {
             double expVal = Math.exp(entry.getValue());
             expScores.put(entry.getKey(), expVal);
             sumOfExponentials += expVal;
         }
-
         Map<String, Double> authorProbabilities = new HashMap<>();
         for (Map.Entry<String, Double> entry : expScores.entrySet()) {
             double probability = entry.getValue() / sumOfExponentials;
             authorProbabilities.put(entry.getKey(), probability);
         }
-
         String predictedAuthor = authorProbabilities.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse("Unknown Author");
-
         System.out.println("Probabilities:");
         authorProbabilities.entrySet().stream()
                 .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
@@ -71,10 +67,8 @@ public class RecognitionService {
                     }
                     System.out.printf("   %s -> %.4f\n", output, e.getValue());
                 });
-
         return predictedAuthor;
     }
-
 
     private double calculateLogLikelihood(String author, List<String> tokens) {
         Map<String, Integer> wordCounts = modelData.getWordCountsPerAuthor().get(author);

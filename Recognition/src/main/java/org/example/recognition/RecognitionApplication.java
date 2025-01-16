@@ -41,8 +41,8 @@ public class RecognitionApplication implements CommandLineRunner {
         } else if(predictedAuthor.equals("konstantinov")){
             output = "Алеко Константинов";
         }
-
         System.out.println("Прогнозираният автор е: " + output);
+
 
     }
 }
