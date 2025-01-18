@@ -31,7 +31,7 @@ public class RecognitionApplication implements CommandLineRunner {
 //
 //        System.out.println("Training complete. Model saved to authorship_model.json");
         recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
-        String testText = "синила от бича, следи от теглото"; //
+        String testText = "Този текст не принадлежи на никого, понеже е напълно измислен"; //
         String predictedAuthor = recognitionService.predictAuthor(testText);
         String output = "";
         if(predictedAuthor.equals("vazov")){
@@ -40,6 +40,8 @@ public class RecognitionApplication implements CommandLineRunner {
             output = "Йордан Йовков";
         } else if(predictedAuthor.equals("konstantinov")){
             output = "Алеко Константинов";
+        } else if(predictedAuthor.equals("Unknown Author")){
+            output = "Неизвестен автор";
         }
         System.out.println("Прогнозираният автор е: " + output);
 

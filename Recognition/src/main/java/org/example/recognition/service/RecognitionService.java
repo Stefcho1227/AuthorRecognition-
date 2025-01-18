@@ -49,10 +49,21 @@ public class RecognitionService {
             double probability = entry.getValue() / sumOfExponentials;
             authorProbabilities.put(entry.getKey(), probability);
         }
-        String predictedAuthor = authorProbabilities.entrySet().stream()
+//        String predictedAuthor = authorProbabilities.entrySet().stream()
+//                .max(Map.Entry.comparingByValue())
+//                .map(Map.Entry::getKey)
+//                .orElse("Unknown Author");
+        // Get the author with the highest probability
+        Map.Entry<String, Double> maxEntry = authorProbabilities.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse("Unknown Author");
+                .orElse(null);
+
+        // If no author is found or the highest probability is below 80%, return "Unknown Author"
+        if (maxEntry == null || maxEntry.getValue() < 0.8) {
+            return "Unknown Author";
+        }
+
+        String predictedAuthor = maxEntry.getKey();
         System.out.println("Probabilities:");
         authorProbabilities.entrySet().stream()
                 .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
