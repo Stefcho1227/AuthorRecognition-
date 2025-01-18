@@ -38,13 +38,13 @@ public class RecognitionService {
             default -> "";
         };
         String outputGenre = switch (predictedGenre) {
-            case "feiletoni" -> "Фейлетони";
-            case "patepisi" -> "Пътеписи";
-            case "razkazi" -> "Разкази";
-            case "poemi" -> "Поеми";
-            case "poezii" -> "Поезии";
-            case "povesti" -> "Повести";
-            case "romani" -> "Романи";
+            case "feiletoni" -> "Фейлетон";
+            case "patepisi" -> "Пътепис";
+            case "razkazi" -> "Разказ";
+            case "poemi" -> "Поема";
+            case "poezii" -> "Поезия";
+            case "povesti" -> "Повест";
+            case "romani" -> "Роман";
 
             default -> "";
         };

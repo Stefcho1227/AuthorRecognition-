@@ -32,11 +32,9 @@ public class RecognitionApplication implements CommandLineRunner {
         System.out.println("Training complete. Model saved to authorship_model.json");*/
         recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
         //Стойността на testText може да се промени, за да се тества разпознаването на автора
-        String testText = "Срещу прокурора седи една траурна слезлива дама от Елзас.";
-        String predictedAuthor = recognitionService.predict(testText);
-
-        System.out.println("Прогнозираният автор е: " + predictedAuthor);
-
+        String testText = "Славянство? — глупост, братство? — празна дума.\n" +
+                "\tДостойнство! — вятър, чест? — безсмислен звук!";
+        recognitionService.predict(testText);
 
     }
 }
