@@ -21,28 +21,26 @@ public class RecognitionApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String baseDir = "Recognition/src/main/resources/data";
-        String[] authors = {"vazov", "yovkov", "konstantinov"};
+
 //      Този код се изпълнява само веднъж при първото построяване на програмата и
 //      след всяко обновяване на ресурсните текстове. Той обучава програмата.
-
+//        String baseDir = "Recognition/src/main/resources/data";
+//        String[] authors = {"vazov", "yovkov", "konstantinov"};
 //        trainerService.trainModel(baseDir, authors);
 //        trainerService.saveModelToJson("authorship_model.json");
 //
 //        System.out.println("Training complete. Model saved to authorship_model.json");
         recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
-        String testText = "Този текст не принадлежи на никого, понеже е напълно измислен"; //
+        //Стойността на testText може да се промени, за да се тества разпознаването на автора
+        String testText = "Този текст не принадлежи на никого, понеже е напълно измислен";
         String predictedAuthor = recognitionService.predictAuthor(testText);
-        String output = "";
-        if(predictedAuthor.equals("vazov")){
-            output = "Иван Вазов";
-        } else if(predictedAuthor.equals("yovkov")){
-            output = "Йордан Йовков";
-        } else if(predictedAuthor.equals("konstantinov")){
-            output = "Алеко Константинов";
-        } else if(predictedAuthor.equals("Unknown Author")){
-            output = "Неизвестен автор";
-        }
+        String output = switch (predictedAuthor) {
+            case "vazov" -> "Иван Вазов";
+            case "yovkov" -> "Йордан Йовков";
+            case "konstantinov" -> "Алеко Константинов";
+            case "Unknown Author" -> "Неизвестен автор";
+            default -> "";
+        };
         System.out.println("Прогнозираният автор е: " + output);
 
 

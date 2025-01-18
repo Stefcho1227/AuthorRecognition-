@@ -12,10 +12,10 @@ import java.util.*;
 @Service
 public class TrainerService {
 
-    private Map<String, Map<String, Integer>> wordCountsPerAuthor = new HashMap<>();
-    private Map<String, Integer> totalWordsPerAuthor = new HashMap<>();
-    private Map<String, Integer> docCountPerAuthor = new HashMap<>();
-    private Set<String> vocabulary = new HashSet<>();
+    private final Map<String, Map<String, Integer>> wordCountsPerAuthor = new HashMap<>();
+    private final Map<String, Integer> totalWordsPerAuthor = new HashMap<>();
+    private final Map<String, Integer> docCountPerAuthor = new HashMap<>();
+    private final Set<String> vocabulary = new HashSet<>();
     private int totalDocuments = 0;
 
     public void trainModel(String baseDir, String[] authors) {

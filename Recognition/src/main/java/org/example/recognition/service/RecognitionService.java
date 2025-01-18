@@ -68,14 +68,12 @@ public class RecognitionService {
         authorProbabilities.entrySet().stream()
                 .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
                 .forEach(e -> {
-                    String output = "";
-                    if(e.getKey().equals("vazov")){
-                        output = "Иван Вазов";
-                    } else if(e.getKey().equals("yovkov")){
-                        output = "Йордан Йовков";
-                    } else if(e.getKey().equals("konstantinov")){
-                        output = "Алеко Константинов";
-                    }
+                    String output = switch (e.getKey()) {
+                        case "vazov" -> "Иван Вазов";
+                        case "yovkov" -> "Йордан Йовков";
+                        case "konstantinov" -> "Алеко Константинов";
+                        default -> "";
+                    };
                     System.out.printf("   %s -> %.4f\n", output, e.getValue());
                 });
         return predictedAuthor;
@@ -89,7 +87,7 @@ public class RecognitionService {
         double logLikelihood = 0.0;
         for (String token : tokens) {
             double wordProbability =
-                    (wordCounts.getOrDefault(token, 0) + 1) / (double) (totalWords + vocabularySize);
+                    (wordCounts.getOrDefault(token, 0) + 1) / (totalWords + vocabularySize);
 
             logLikelihood += Math.log(wordProbability);
         }
