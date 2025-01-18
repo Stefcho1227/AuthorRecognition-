@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class ModelData {
     public ModelData() {
-
     }
 
     @JsonProperty("wordCountsPerAuthor")
@@ -19,6 +18,15 @@ public class ModelData {
     @JsonProperty("docCountPerAuthor")
     private Map<String, Integer> docCountPerAuthor;
 
+    @JsonProperty("wordCountsPerGenre")
+    private Map<String, Map<String, Integer>> wordCountsPerGenre;
+
+    @JsonProperty("totalWordsPerGenre")
+    private Map<String, Integer> totalWordsPerGenre;
+
+    @JsonProperty("docCountPerGenre")
+    private Map<String, Integer> docCountPerGenre;
+
     @JsonProperty("totalDocuments")
     private int totalDocuments;
 
@@ -29,11 +37,17 @@ public class ModelData {
             @JsonProperty("wordCountsPerAuthor") Map<String, Map<String, Integer>> wordCountsPerAuthor,
             @JsonProperty("totalWordsPerAuthor") Map<String, Integer> totalWordsPerAuthor,
             @JsonProperty("docCountPerAuthor") Map<String, Integer> docCountPerAuthor,
+            @JsonProperty("wordCountsPerGenre") Map<String, Map<String, Integer>> wordCountsPerGenre,
+            @JsonProperty("totalWordsPerGenre") Map<String, Integer> totalWordsPerGenre,
+            @JsonProperty("docCountPerGenre") Map<String, Integer> docCountPerGenre,
             @JsonProperty("totalDocuments") int totalDocuments,
             @JsonProperty("vocabulary") List<String> vocabulary) {
         this.wordCountsPerAuthor = wordCountsPerAuthor;
         this.totalWordsPerAuthor = totalWordsPerAuthor;
         this.docCountPerAuthor = docCountPerAuthor;
+        this.wordCountsPerGenre = wordCountsPerGenre;
+        this.totalWordsPerGenre = totalWordsPerGenre;
+        this.docCountPerGenre = docCountPerGenre;
         this.totalDocuments = totalDocuments;
         this.vocabulary = vocabulary;
     }
@@ -62,6 +76,30 @@ public class ModelData {
         this.docCountPerAuthor = docCountPerAuthor;
     }
 
+    public Map<String, Map<String, Integer>> getWordCountsPerGenre() {
+        return wordCountsPerGenre;
+    }
+
+    public void setWordCountsPerGenre(Map<String, Map<String, Integer>> wordCountsPerGenre) {
+        this.wordCountsPerGenre = wordCountsPerGenre;
+    }
+
+    public Map<String, Integer> getTotalWordsPerGenre() {
+        return totalWordsPerGenre;
+    }
+
+    public void setTotalWordsPerGenre(Map<String, Integer> totalWordsPerGenre) {
+        this.totalWordsPerGenre = totalWordsPerGenre;
+    }
+
+    public Map<String, Integer> getDocCountPerGenre() {
+        return docCountPerGenre;
+    }
+
+    public void setDocCountPerGenre(Map<String, Integer> docCountPerGenre) {
+        this.docCountPerGenre = docCountPerGenre;
+    }
+
     public int getTotalDocuments() {
         return totalDocuments;
     }
@@ -78,3 +116,4 @@ public class ModelData {
         this.vocabulary = vocabulary;
     }
 }
+

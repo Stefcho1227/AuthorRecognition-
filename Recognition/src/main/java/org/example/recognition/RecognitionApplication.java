@@ -24,24 +24,18 @@ public class RecognitionApplication implements CommandLineRunner {
 
 //      Този код се изпълнява само веднъж при първото построяване на програмата и
 //      след всяко обновяване на ресурсните текстове. Той обучава програмата.
-//        String baseDir = "Recognition/src/main/resources/data";
-//        String[] authors = {"vazov", "yovkov", "konstantinov"};
-//        trainerService.trainModel(baseDir, authors);
-//        trainerService.saveModelToJson("authorship_model.json");
+        /*String baseDir = "Recognition/src/main/resources/data";
+        String[] authors = {"vazov", "yovkov", "konstantinov"};
+        trainerService.trainModel(baseDir, authors);
+        trainerService.saveModelToJson("authorship_model.json");
 //
-//        System.out.println("Training complete. Model saved to authorship_model.json");
+        System.out.println("Training complete. Model saved to authorship_model.json");*/
         recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
         //Стойността на testText може да се промени, за да се тества разпознаването на автора
-        String testText = "Този текст не принадлежи на никого, понеже е напълно измислен";
-        String predictedAuthor = recognitionService.predictAuthor(testText);
-        String output = switch (predictedAuthor) {
-            case "vazov" -> "Иван Вазов";
-            case "yovkov" -> "Йордан Йовков";
-            case "konstantinov" -> "Алеко Константинов";
-            case "Unknown Author" -> "Неизвестен автор";
-            default -> "";
-        };
-        System.out.println("Прогнозираният автор е: " + output);
+        String testText = "Срещу прокурора седи една траурна слезлива дама от Елзас.";
+        String predictedAuthor = recognitionService.predict(testText);
+
+        System.out.println("Прогнозираният автор е: " + predictedAuthor);
 
 
     }
