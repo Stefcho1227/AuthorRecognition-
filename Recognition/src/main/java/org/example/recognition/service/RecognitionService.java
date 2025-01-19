@@ -23,20 +23,23 @@ public class RecognitionService {
             modelData = objectMapper.readValue(new File(modelPath), ModelData.class);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to load the model.");
+            throw new RuntimeException("Моделът не може да бъде зареден.");
         }
     }
 
-    public String predict(String text) {
+    public void predict(String text) {
         String predictedAuthor = predictAuthor(text);
+        if (predictedAuthor.equals("Unknown Author")) {
+            return;
+        }
         String predictedGenre = predictGenre(text);
         String outputAuthor = switch (predictedAuthor) {
             case "vazov" -> "Иван Вазов";
             case "yovkov" -> "Йордан Йовков";
             case "konstantinov" -> "Алеко Константинов";
-            case "Unknown Author" -> "Неизвестен автор";
             default -> "";
         };
+
         String outputGenre = switch (predictedGenre) {
             case "feiletoni" -> "Фейлетон";
             case "patepisi" -> "Пътепис";
@@ -45,14 +48,11 @@ public class RecognitionService {
             case "poezii" -> "Поезия";
             case "povesti" -> "Повест";
             case "romani" -> "Роман";
-
             default -> "";
         };
 
-        System.out.printf("Predicted Author: %s%n", outputAuthor);
-        System.out.printf("Predicted Genre: %s%n", outputGenre);
-
-        return String.format("Author: %s, Genre: %s", predictedAuthor, predictedGenre);
+        System.out.printf("Предположен автор: %s%n", outputAuthor);
+        System.out.printf("Предположен жанр: %s%n", outputGenre);
     }
 
     private String predictAuthor(String text) {
@@ -74,14 +74,14 @@ public class RecognitionService {
                 .orElse(Double.NEGATIVE_INFINITY);
 
         double totalLogScoreSum = logScores.values().stream()
-                .mapToDouble(score -> Math.exp(score - maxLogScore)) // Shift scores
+                .mapToDouble(score -> Math.exp(score - maxLogScore)) // Логаритмичните оценки се "shift-ват", за да се избегнат числови проблеми при експоненциалното повдигане.
                 .sum();
 
         Map<String, Double> accuracyScores = new HashMap<>();
         if (totalLogScoreSum > 0) {
             for (Map.Entry<String, Double> entry : logScores.entrySet()) {
                 double normalizedProbability = Math.exp(entry.getValue() - maxLogScore) / totalLogScoreSum;
-                accuracyScores.put(entry.getKey(), normalizedProbability * 100); // Convert to percentage
+                accuracyScores.put(entry.getKey(), normalizedProbability * 100); // Превръщане в проценти
             }
         } else {
             logScores.keySet().forEach(author -> accuracyScores.put(author, 0.0));
@@ -92,11 +92,10 @@ public class RecognitionService {
                 .orElse(null);
 
         if (maxEntry == null || maxEntry.getValue() < 80) {
-            System.out.println("No author predicted with sufficient accuracy.");
+            System.out.println("Няма намерен автор с повече от 80% точност.");
             return "Unknown Author";
         }
-
-        System.out.println(String.format("Accuracy: %.2f%%", maxEntry.getValue()));
+        System.out.println(String.format("Точност на разпознаване: %.2f%%", maxEntry.getValue()));
         return bestAuthorEntry.getKey();
     }
     private String predictGenre(String text) {

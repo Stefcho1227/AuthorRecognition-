@@ -29,11 +29,10 @@ public class RecognitionApplication implements CommandLineRunner {
         trainerService.trainModel(baseDir, authors);
         trainerService.saveModelToJson("authorship_model.json");
 //
-        System.out.println("Training complete. Model saved to authorship_model.json");*/
+        System.out.println("Обучението завърши успешно. Моделът е записан в authorship_model.json");*/
         recognitionService.loadModel("../AuthorRecognition-/authorship_model.json");
         //Стойността на testText може да се промени, за да се тества разпознаването на автора
-        String testText = "Славянство? — глупост, братство? — празна дума.\n" +
-                "\tДостойнство! — вятър, чест? — безсмислен звук!";
+        String testText = "Най-после уреченият ден дохожда и вие тръгваме";
         recognitionService.predict(testText);
 
     }
